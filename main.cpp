@@ -10,6 +10,9 @@ static void usage()
   fprintf(stderr, "usage: deluxe68 [options] <input> <output>\n");
   fprintf(stderr, "options:\n");
   fprintf(stderr, "  -l     emit tbl_line directives\n");
+  fprintf(stderr, "  -p     create code sections for procedures\n");
+  fprintf(stderr, "  -f     fetch and translate include files\n");
+  fprintf(stderr, "  -Idir  add the directory dir to the list of directories to be searched for header files\n");
   exit(1);
 }
 
