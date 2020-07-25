@@ -956,20 +956,9 @@ void Deluxe68::handleRegularLine(StringFragment line)
         {
           std::string incPathStr(incPath.ptr(), incPath.length());
           
-          // printf("incPathStr: '%s'\n", incPathStr.c_str());
-
-
-          // printf("incPath.length A: %d\n", incPath.length());
-          // printf("incPath.ptr A: %.*s\n", incPath.length(), incPath.ptr());
-
           for(auto includePath: m_IncludePaths)
           {
             std::string fullPath = includePath + incPathStr;
-            
-            // printf("include path: '%s'\n", includePath);
-            // std::string three= one+two;
-            // std::string three= one+two;
-
             
             FILE* f = fopen(fullPath.c_str(), "rb");
             if (f)
@@ -996,15 +985,8 @@ void Deluxe68::handleRegularLine(StringFragment line)
               }
               memcpy(tempName, incPath.ptr(), tempNameLength);
               tempName[tempNameLength] = 0;
-              // printf("m_OutputSchedule.size A: %zd\n", m_OutputSchedule.size());
               Deluxe68 d(tempName, inputData->data(), inputData->size(), m_EmitLineDirectives, m_ProcSections, m_FetchIncludes, m_IncludePaths, m_OutputSchedule);
-              // printf("m_OutputSchedule.size B: %zd\n", m_OutputSchedule.size());
-              // Deluxe68 d(incPath.ptr(), inputData.data(), inputData.size(), m_EmitLineDirectives, m_ProcSections, m_FetchIncludes, m_IncludePaths, m_OutputSchedule);
-              // Deluxe68 d("TODO: Fix correct file name", inputData.data(), inputData.size(), m_EmitLineDirectives, m_ProcSections, m_FetchIncludes, m_IncludePaths, m_OutputSchedule);
               d.run();
-              // printf("Handled include - fullPath: '%s'\n", fullPath.c_str());
-              // printf("Error count: %d\n", d.errorCount());
-              // printf("inputData.size: %zd\n", inputData.size());
               m_ErrorCount += d.errorCount();
               includeHandled = true;
               output(OutputElement(StringFragment("; recurse end <<")));
@@ -1019,14 +1001,10 @@ void Deluxe68::handleRegularLine(StringFragment line)
           }
           if (!includeHandled)
           {
-            // printf("incPath.length B: %d\n", incPath.length());
-            // printf("incPath.ptr B: %.*s\n", incPath.length(), incPath.ptr());
-            // errorForLine(m_LineNumber, "can't open include file %.*s for reading\n", incPath.length(), incPath.ptr());
             printf("%s(%d): ", m_Filename, m_LineNumber);
             printf("can't open include file %.*s for reading - will not be fetched\n", incPath.length(), incPath.ptr());
             output(OutputElement(keyword));
             output(OutputElement(line));
-            // output(OutputElement(StringFragment("HEJ")));
             line.slice(line.length());
           }
         }
@@ -1034,29 +1012,12 @@ void Deluxe68::handleRegularLine(StringFragment line)
         {
           errorForLine(m_LineNumber, "failed to parse include statement: '%.*s%.*s'\n", keyword.length(), keyword.ptr(), line.length(), line.ptr());
         }
-
-        // if (includeHandled)
-        // {
-        //   line.slice(line.length());
-        // }
-
-        // printf("<==\n");
-        // printf("incParam %d: %.*s\n", incParam.length(), incParam.length(), incParam.ptr());
-        // printf("incPath %d: %.*s\n", incPath.length(), incPath.length(), incPath.ptr());
-        // printf("incParam bool %s\n", incPath ? "true" : "false");
-        // printf("==>\n");
-
       }
       else
       {
         // Not include, retain it
-        // output(OutputElement(StringFragment("AAA")));
         output(OutputElement(keyword));
-        // output(OutputElement(StringFragment("BBB")));
       }
-      
-
-      // line.slice(1);
       
       i=0; // restart
     }
