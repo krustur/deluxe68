@@ -681,6 +681,21 @@ StringFragment Deluxe68::nextLine()
       m_ParsePoint = start + i + 1;
       return f;
     }
+
+    if ('\r' == start[i])
+    {
+      StringFragment f(start, i);
+      if (((i + 1) < remain) && '\n' == start[i + 1])
+      {
+        m_ParsePoint = start + i + 2;
+      }
+      else
+      {
+        m_ParsePoint = start + i + 1;
+      }
+      
+      return f;
+    }
   }
 
   StringFragment f(start, remain);
