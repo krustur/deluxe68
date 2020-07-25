@@ -3,7 +3,8 @@
 
 std::string DeluxeTest::xform(const char* in, bool line_directives)
 {
-  Deluxe68 d68("<unittest>", in, strlen(in), line_directives, false);
+  std::vector<OutputElement> outputSchedule;  
+  Deluxe68 d68("<unittest>", in, strlen(in), line_directives, false, false, std::vector<std::string>{}, outputSchedule);
   d68.run();
   d68.generateOutput([](const char* buf, size_t len, void* user_data)
   {

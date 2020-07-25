@@ -19,6 +19,8 @@ int main(int argc, char* argv[])
   bool procSections = false;
   int positionalCount = 0;
   const char* positionals[2] = { nullptr, nullptr };
+  bool fetchIncludes = false;
+  std::vector<std::string> includePaths {""};  
 
   for (int i = 1; i < argc; ++i)
   {
@@ -32,6 +34,15 @@ int main(int argc, char* argv[])
       {
         procSections = true;
       }
+      else if (0 == strcmp("-f", argv[i]))
+      {
+        fetchIncludes = true;
+      }
+      else if (0 == strncmp("-I", argv[i], 2))
+      {
+        std::string includePath(argv[i]+2);
+        includePaths.push_back(includePath);
+      }      
       else
       {
         fprintf(stderr, "invalid option: %s\n", argv[i]);
@@ -69,7 +80,8 @@ int main(int argc, char* argv[])
     fclose(f);
   }
 
-  Deluxe68 d(positionals[0], inputData.data(), inputData.size(), emitLineDirectives, procSections);
+  std::vector<OutputElement> outputSchedule;  
+  Deluxe68 d(positionals[0], inputData.data(), inputData.size(), emitLineDirectives, procSections, fetchIncludes, includePaths, outputSchedule);
 
   d.run();
 
@@ -86,7 +98,7 @@ int main(int argc, char* argv[])
   }
   else
   {
-    fprintf(stderr, "can't open %s for reading\n", positionals[1]);
+    fprintf(stderr, "can't open %s for writing\n", positionals[1]);
     exit(1);
   }
 

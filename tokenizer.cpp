@@ -150,3 +150,35 @@ StringFragment skipWhitespace(StringFragment input)
   return StringFragment();
 }
 
+StringFragment parseString(StringFragment input)
+{
+  char stringToken = 0;
+  if (input.length() > 1)
+  {
+    if (input[0] == '\''){
+      stringToken = '\'';
+      
+      input.slice(1);
+    }
+    if (input[0] == '"'){
+      stringToken = '"';
+      input.slice(1);
+    }
+  }
+  
+  int i, count;
+  for (i = 0, count = input.length(); i < count; ++i)
+  {
+    if ((input[i] == stringToken) || 
+        (isspace(input[i]) && stringToken == 0))
+    {
+      return StringFragment(input.ptr(), i);
+    }
+  }
+  if  (i == count && stringToken == 0)
+  {
+    return StringFragment(input.ptr(), i);
+  }
+  return StringFragment();
+}
+

@@ -64,4 +64,5 @@ private:
 };
 
 StringFragment skipWhitespace(StringFragment f);
+StringFragment parseString(StringFragment f);
 

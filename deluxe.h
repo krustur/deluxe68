@@ -60,7 +60,7 @@ private:
   mutable PrintCallback* m_PrintCallback = nullptr;
   mutable void* m_PrintData = nullptr;
 
-  std::vector<OutputElement> m_OutputSchedule;
+  std::vector<OutputElement> &m_OutputSchedule;
 
   const char* m_Filename;
   int m_LineNumber = 0;
@@ -69,6 +69,8 @@ private:
 
   bool m_EmitLineDirectives = false;
   bool m_ProcSections = false;
+  bool m_FetchIncludes = false;
+  std::vector<std::string> m_IncludePaths;
   int m_CurrentOutputLine = 0;
 
   StringFragment m_CurrentProcName;
@@ -153,7 +155,7 @@ private:
   std::unordered_map<StringFragment, ProcedureDef> m_Procedures;
 
 public:
-  explicit Deluxe68(const char* ifn, const char* data, size_t len, bool emitLineDirectives, bool procSections);
+  explicit Deluxe68(const char* ifn, const char* data, size_t len, bool emitLineDirectives, bool procSections, bool fetchIncludes, std::vector<std::string> includePaths, std::vector<OutputElement> &outputSchedule);
 
   ~Deluxe68();
 

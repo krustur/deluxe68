@@ -69,7 +69,7 @@ Build {
       Name = "win64-msvc",
       DefaultOnHost = "windows",
       Inherit = common,
-      Tools = { { "msvc-vs2015"; TargetArch = "x64" }, },
+      Tools = { { "msvc-vs2019"; TargetArch = "x64" }, },
     },
 
     Config {
